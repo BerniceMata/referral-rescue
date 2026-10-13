@@ -1,0 +1,61 @@
+<html><head><style>
+body{font-family:Tahoma,Verdana,Arial,sans-serif;margin:60px 64px;color:#000;font-size:19px;line-height:1.25}
+table{border-collapse:collapse;width:100%}
+.hd td{vertical-align:top;padding:0 0 10px 0}
+.pr{font-size:25px;font-weight:bold}
+.addr{font-size:17px;margin-top:3px}
+.ttl{font-size:27px;font-weight:bold;text-align:right;letter-spacing:1px}
+.rt{text-align:right;font-size:17px;margin-top:4px}
+hr{border:0;border-top:3px solid #000;margin:6px 0 14px 0}
+.sec{background:#000;color:#fff;font-weight:bold;font-size:18px;letter-spacing:1px;padding:4px 10px;margin-top:20px}
+.g td{border-bottom:1px solid #000;padding:7px 8px 6px 8px;vertical-align:top;width:33%}
+.g td.w2{width:66%}
+.k{display:block;font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.v{display:block;font-size:20px;min-height:24px}
+.big{font-size:23px;font-weight:bold}
+.note{border:2px solid #000;padding:10px 12px;margin-top:6px;min-height:70px;font-size:19px}
+.sig{margin-top:34px;font-size:17px}
+.foot{margin-top:30px;font-size:14px;border-top:1px solid #000;padding-top:6px}
+</style></head><body>
+<table class="hd"><tr>
+<td><div class="pr">$referring_practice</div>
+<div class="addr">1200 Main Street, Suite 300 &bull; Anytown, TX 75000<br>Ph (972) 555-0140 &nbsp;&bull;&nbsp; Fax (972) 555-0141</div></td>
+<td><div class="ttl">REFERRAL ORDER</div>
+<div class="rt">Order Date: $date_sent<br>Status: Signed &nbsp;&bull;&nbsp; Encounter type: Office Visit</div></td>
+</tr></table>
+<hr>
+
+<div class="sec">PATIENT DEMOGRAPHICS</div>
+<table class="g">
+<tr><td class="w2" colspan="2"><span class="k">Patient (Last, First)</span><span class="v big">$last_first</span></td>
+<td><span class="k">MRN</span><span class="v">0048291</span></td></tr>
+<tr><td><span class="k">Date of Birth</span><span class="v">$dob</span></td>
+<td><span class="k">Primary Phone</span><span class="v">$phone</span></td>
+<td><span class="k">Preferred Language</span><span class="v">English</span></td></tr>
+</table>
+
+<div class="sec">COVERAGE</div>
+<table class="g">
+<tr><td class="w2" colspan="2"><span class="k">Primary Plan</span><span class="v">$payer</span></td>
+<td><span class="k">Subscriber / Member No.</span><span class="v">$member_id</span></td></tr>
+<tr><td><span class="k">Authorization</span><span class="v">Per plan requirements</span></td>
+<td><span class="k">Visits Requested</span><span class="v">Evaluate and treat</span></td>
+<td><span class="k">Network Status</span><span class="v">Verify at scheduling</span></td></tr>
+</table>
+
+<div class="sec">ORDER DETAILS</div>
+<table class="g">
+<tr><td class="w2" colspan="2"><span class="k">Referred To (Specialty)</span><span class="v big">$specialty</span></td>
+<td><span class="k">Order Priority</span><span class="v big">$urgency_upper</span></td></tr>
+<tr><td class="w2" colspan="2"><span class="k">Associated Diagnosis</span><span class="v">$reason</span></td>
+<td><span class="k">Dx Code (ICD-10-CM)</span><span class="v">$icd10</span></td></tr>
+<tr><td class="w2" colspan="2"><span class="k">Ordering Provider</span><span class="v">$referring_provider</span></td>
+<td><span class="k">Referral Type</span><span class="v">Outpatient, external</span></td></tr>
+</table>
+
+<div class="sec">REASON FOR REFERRAL / COMMENTS</div>
+<div class="note">$reason<br>Please schedule consult and send recommendations to ordering provider.</div>
+
+<div class="sig">Electronically signed by: $referring_provider &nbsp;&nbsp; $date_sent</div>
+<div class="foot">CONFIDENTIAL: This document contains protected health information intended only for the addressee. If you received it in error, notify the sender and destroy all copies. Page 1 of 1</div>
+</body></html>

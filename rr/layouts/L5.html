@@ -1,0 +1,48 @@
+<html><head><style>
+body{font-family:Arial,Helvetica,sans-serif;margin:64px 76px;color:#000;font-size:20px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:4px double #000;padding-bottom:10px}
+.top h1{font-size:34px;margin:0;letter-spacing:2px}
+.top .sm{font-size:15px;text-align:right}
+.row{display:flex;align-items:flex-end;margin-top:34px}
+.lb{font-size:17px;font-weight:bold;white-space:nowrap;margin-right:8px}
+.ln{flex:1;border-bottom:2px solid #000;min-height:34px;font-family:'Segoe Print','Ink Free','Comic Sans MS',cursive;font-size:25px;padding:0 8px 2px 8px;white-space:nowrap;overflow:hidden}
+.gap{width:30px}
+.hw{font-family:'Segoe Print','Ink Free','Comic Sans MS',cursive;font-size:25px}
+.pri{margin-top:38px;font-size:18px;font-weight:bold}
+.pri span.opt{display:inline-block;margin-left:26px;font-weight:normal;font-size:18px}
+.pri .hw{display:inline-block;border:2px solid #000;min-width:50px;text-align:center;margin-left:6px;padding:0 4px;font-size:22px}
+.box{border:2px solid #000;margin-top:38px;padding:10px 14px;min-height:150px}
+.box .lb{display:block;margin-bottom:6px}
+.fine{margin-top:34px;font-size:15px}
+.sig{display:flex;margin-top:44px;align-items:flex-end}
+</style></head><body>
+<div class="top"><h1>REFERRAL</h1><div class="sm">Fax to specialist &bull; please call if unable to schedule<br>Form RF-2 (rev. 4)</div></div>
+
+<div class="row"><span class="lb">Date</span><span class="ln" style="max-width:260px">$date_sent</span><span class="gap"></span>
+<span class="lb">From (office)</span><span class="ln">$referring_practice</span></div>
+
+<div class="row"><span class="lb">Pt</span><span class="ln">$patient_name</span><span class="gap"></span>
+<span class="lb">DOB</span><span class="ln" style="max-width:230px">$dob</span></div>
+
+<div class="row"><span class="lb">Ph #</span><span class="ln" style="max-width:330px">$phone</span><span class="gap"></span>
+<span class="lb">Ins</span><span class="ln">$payer</span></div>
+
+<div class="row"><span class="lb">ID #</span><span class="ln">$member_id</span><span class="gap"></span>
+<span class="lb">Ref MD</span><span class="ln">$referring_provider</span></div>
+
+<div class="row"><span class="lb">Send to / Spec</span><span class="ln">$specialty</span></div>
+
+<div class="row"><span class="lb">Dx</span><span class="ln">$reason</span><span class="gap"></span>
+<span class="lb">ICD</span><span class="ln" style="max-width:200px">$icd10</span></div>
+
+<div class="pri">Priority: (mark one)
+<span class="opt">Routine <span class="hw">$box_routine</span></span>
+<span class="opt">Urgent <span class="hw">$box_urgent</span></span>
+<span class="opt">STAT <span class="hw">$box_stat</span></span></div>
+
+<div class="box"><span class="lb">Notes / reason for visit</span><span class="hw">$reason &nbsp; $urgency</span></div>
+
+<div class="sig"><span class="lb">Signature</span><span class="ln" style="max-width:430px">$referring_provider</span></div>
+
+<div class="fine">Attach recent chart notes if available. Pt has been told to expect a call from your scheduler.</div>
+</body></html>

@@ -1,0 +1,42 @@
+<html><head><style>
+body{font-family:'Times New Roman',Times,serif;margin:64px 84px;color:#000;font-size:23px;line-height:1.4}
+.fx{font-family:Arial,Helvetica,sans-serif}
+h1{font-family:Arial,Helvetica,sans-serif;font-size:50px;letter-spacing:6px;margin:0 0 4px 0;text-align:center}
+.pr{font-family:Arial,Helvetica,sans-serif;text-align:center;font-size:19px;margin-bottom:22px}
+table.cv{width:100%;border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;font-size:21px;border-top:3px solid #000;border-bottom:3px solid #000}
+table.cv td{padding:7px 8px;vertical-align:top}
+table.cv td.k{width:16%;font-weight:bold}
+.rule{border-top:1px solid #000;margin:26px 0 22px 0}
+.memo{font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:22px;margin-bottom:16px}
+p{margin:0 0 18px 0}
+.o:not(:empty)::before{content:attr(data-b)}
+.o:not(:empty)::after{content:attr(data-a)}
+.sig{margin-top:44px;font-size:23px}
+.sig .l{border-top:2px solid #000;width:430px;margin-top:46px;padding-top:4px}
+.conf{margin-top:34px;font-family:Arial,Helvetica,sans-serif;font-size:15px;border:1px solid #000;padding:8px 10px}
+</style></head><body>
+<h1>FAX</h1>
+<div class="pr">$referring_practice</div>
+
+<table class="cv">
+<tr><td class="k">TO:</td><td>Referral Coordinator<span class="o" data-b=", " data-a="">$specialty</span></td><td class="k">DATE:</td><td>$date_sent</td></tr>
+<tr><td class="k">FROM:</td><td>$referring_provider</td><td class="k">PAGES:</td><td>1 (including cover)</td></tr>
+<tr><td class="k">RE:</td><td colspan="3">New patient referral request<span class="o" data-b=" — " data-a="">$urgency_upper</span></td></tr>
+</table>
+
+<div class="rule"></div>
+<div class="memo">REFERRAL NOTE</div>
+
+<p>Dear Colleague,</p>
+
+<p>I am writing to refer my patient<span class="o" data-b=", " data-a="">$patient_name</span><span class="o" data-b=" (DOB " data-a=")">$dob</span>, to your <span>$specialty</span> service for evaluation and management.<span class="o" data-b=" The patient presents with " data-a=".">$reason</span><span class="o" data-b=" ICD-10 code " data-a=".">$icd10</span> I would appreciate your help with further work-up and recommendations.</p>
+
+<p><span class="o" data-b="The patient is covered by " data-a=".">$payer</span><span class="o" data-b=" Member number " data-a=".">$member_id</span><span class="o" data-b=" Given the clinical picture I would consider this referral " data-a=".">$urgency</span> Please have your scheduler contact the patient as soon as an appointment is available.<span class="o" data-b=" The patient can be reached at " data-a=".">$phone</span></p>
+
+<p>Please send your consultation note back to my office once the visit is complete. Thank you for your help with this patient.</p>
+
+<div class="sig">Sincerely,
+<div class="l">$referring_provider<br>$referring_practice</div></div>
+
+<div class="conf">CONFIDENTIALITY NOTICE: This facsimile contains privileged and confidential health information intended only for the named recipient. If you are not the intended recipient, any review, disclosure or copying is prohibited. Please call the sender and destroy this document.</div>
+</body></html>
