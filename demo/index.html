@@ -94,11 +94,11 @@
   <section>
     <h2>How accurate is it?</h2>
     <div class="scores" id="scores"></div>
-    <p class="small" style="margin-top:1rem">Field accuracy counts a field right only when it matches exactly after formatting is normalized (phone digits, ID characters). A "false fill" is the dangerous error: the system inventing a value for a field that was actually blank, which leads to a denied claim or a patient who is never reached. The rules version never did that on either set; when unsure, it leaves the field blank and flags it.</p>
+    <p class="small" style="margin-top:1rem">Field accuracy counts a field right only when it matches exactly after formatting is normalized (phone digits, ID characters). A "false fill" is the dangerous error: the system inventing a value for a field that was actually blank, which leads to a denied claim or a patient who is never reached. On its first blind contact with a third set of layouts it invented 4 values out of 8 blank fields; the two fallbacks responsible are now strict, and all 90 test faxes show zero. When unsure, it leaves the field blank and flags it.</p>
     <div class="panel" style="margin-top:1rem">
       <div class="bars" id="bars"></div>
     </div>
-    <p class="small" style="margin-top:1rem"><b>What the gap means.</b> On familiar layouts the rules hit <span id="devPct"></span>; on layouts they had never seen they fell to <span id="hoPct"></span>, mostly on patient name, diagnosis and ICD-10 code, because a new form puts its labels in new places. That gap is why the next step is a vision model with structured output (written and wired into the same test, not yet run). It will be scored on the exact same held-out faxes, and the result will be published here whether it wins or loses.</p>
+    <p class="small" style="margin-top:1rem"><b>What the gap means.</b> On familiar layouts the rules hit <span id="devPct"></span>; on a second set of layouts (now seen and fixed against, so no longer blind) they sit at <span id="hoPct"></span>, mostly on patient name, diagnosis and ICD-10 code, because a new form puts its labels in new places. That gap is why the next step is a vision model with structured output (written and wired into the same test, not yet run). It will be scored on the exact same held-out faxes, and the result will be published here whether it wins or loses.</p>
   </section>
 
   <section>
