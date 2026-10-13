@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referral Rescue | Mitchell Nicholas</title>
+<meta name="description" content="Faxed specialty referrals in, scheduled patients out. A working intake pipeline with an honest accuracy test, built by a former medical assistant. Synthetic data only.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root { --paper:#f6f5f1; --card:#ffffff; --ink:#1d2321; --muted:#5f6b67; --line:#d9ddd8; --teal:#0f6b5c; --tealbg:#e3f1ed;
+          --red:#a3352b; --redbg:#f8e6e3; --amber:#8a5a00; --amberbg:#fbf0d9; color-scheme: light; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper:#121615; --card:#1a201e; --ink:#e7ece9; --muted:#9aa7a2;
+          --line:#2c3532; --teal:#5cc7b0; --tealbg:#173029; --red:#f08a7e; --redbg:#3a1f1b; --amber:#e8b85a; --amberbg:#352a14; color-scheme: dark; } }
+  :root[data-theme="dark"] { --paper:#121615; --card:#1a201e; --ink:#e7ece9; --muted:#9aa7a2; --line:#2c3532; --teal:#5cc7b0; --tealbg:#173029;
+          --red:#f08a7e; --redbg:#3a1f1b; --amber:#e8b85a; --amberbg:#352a14; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.55 "IBM Plex Sans", system-ui, sans-serif; }
+  .wrap { max-width:72rem; margin:0 auto; padding-inline:16px; padding-block:2.5rem 3rem; }
+  a { color:var(--teal); }
+  .mono { font-family:"IBM Plex Mono", ui-monospace, monospace; }
+  .eyebrow { font:500 .72rem/1 "IBM Plex Mono", monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:clamp(2rem,5vw,3rem); line-height:1.08; margin:.5rem 0 .6rem; letter-spacing:-.01em; text-wrap:balance; }
+  h2 { font-size:1.35rem; margin:0 0 .8rem; text-wrap:balance; }
+  .lede { font-size:1.12rem; max-width:44rem; margin:0 0 .8rem; }
+  .note { display:inline-block; background:var(--amberbg); color:var(--amber); border-radius:6px; padding:.25rem .6rem; font-size:.82rem; }
+  section { margin-top:2.6rem; }
+  .demo { display:grid; grid-template-columns: 13rem 1fr 1fr; gap:14px; align-items:start; }
+  @media (max-width:960px) { .demo { grid-template-columns:1fr; } }
+  .list { display:flex; flex-direction:column; gap:6px; }
+  @media (max-width:960px) { .list { flex-direction:row; overflow-x:auto; padding-bottom:4px; } .list button { min-width:11rem; } }
+  .list button { text-align:left; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.55rem .7rem; cursor:pointer; color:var(--ink); font:inherit; }
+  .list button[aria-pressed="true"] { border-color:var(--teal); box-shadow:inset 3px 0 0 var(--teal); }
+  .list b { display:block; font-size:.88rem; } .list span { font-size:.74rem; color:var(--muted); }
+  .fax { background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .fax img { display:block; width:100%; height:auto; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem; }
+  .stage { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:.8rem; }
+  .pill { font:500 .72rem/1 "IBM Plex Mono", monospace; padding:.38rem .5rem; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+  .pill.on { background:var(--tealbg); color:var(--teal); border-color:transparent; }
+  .pill.warn { background:var(--amberbg); color:var(--amber); border-color:transparent; }
+  table { width:100%; border-collapse:collapse; font-size:.86rem; }
+  th { text-align:left; font:500 .68rem/1 "IBM Plex Mono", monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:.4rem .3rem; border-bottom:1px solid var(--line); }
+  td { padding:.42rem .3rem; border-bottom:1px solid var(--line); vertical-align:top; overflow-wrap:anywhere; }
+  td.k { color:var(--muted); width:30%; } td.v { font-family:"IBM Plex Mono", monospace; font-size:.82rem; }
+  .ok { color:var(--teal); } .bad { color:var(--red); } .miss { color:var(--amber); }
+  .truth { display:block; color:var(--muted); font-size:.74rem; }
+  .draft { background:var(--paper); border:1px dashed var(--line); border-radius:6px; padding:.6rem .7rem; font-size:.86rem; margin-top:.5rem; }
+  .toggle { display:flex; gap:.5rem; align-items:center; font-size:.82rem; color:var(--muted); margin:.2rem 0 .6rem; }
+  .scores { display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)); gap:12px; }
+  .score { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem; }
+  .score b { display:block; font:500 2rem/1.1 "IBM Plex Mono", monospace; font-variant-numeric:tabular-nums; }
+  .score span { color:var(--muted); font-size:.86rem; }
+  .bars { display:grid; grid-template-columns: 9rem 1fr 1fr; gap:6px 12px; align-items:center; font-size:.84rem; }
+  .bars .h { font:500 .68rem/1 "IBM Plex Mono", monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .bar { height:.9rem; background:var(--line); border-radius:3px; position:relative; }
+  .bar i { position:absolute; inset:0 auto 0 0; background:var(--teal); border-radius:3px; }
+  .bar.ho i { background:var(--amber); }
+  .bar em { position:absolute; right:-2.6rem; top:-.15rem; font-style:normal; font-size:.74rem; color:var(--muted); font-family:"IBM Plex Mono", monospace; }
+  .bars { padding-right:2.8rem; }
+  .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr)); gap:10px; counter-reset:s; }
+  .step { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.85rem; font-size:.9rem; }
+  .step b { display:block; margin-bottom:.2rem; }
+  .step b::before { counter-increment:s; content:counter(s) ". "; color:var(--teal); font-family:"IBM Plex Mono", monospace; }
+  .roi { display:grid; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); gap:12px; }
+  .roi label { display:flex; flex-direction:column; gap:.3rem; font-size:.84rem; color:var(--muted); }
+  .roi input { font:500 1rem "IBM Plex Mono", monospace; padding:.5rem .6rem; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--ink); }
+  .roi .out { background:var(--tealbg); color:var(--teal); border-radius:8px; padding:1rem; }
+  .roi .out b { display:block; font:500 1.8rem/1.1 "IBM Plex Mono", monospace; }
+  .src { font-size:.78rem; color:var(--muted); margin-top:.6rem; }
+  p.small { font-size:.88rem; color:var(--muted); max-width:46rem; }
+  footer { margin-top:3rem; font-size:.8rem; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Referral Rescue &middot; a working prototype</div>
+  <h1>Faxed referrals in. Scheduled patients out.</h1>
+  <p class="lede">A primary care office faxes a referral to a specialist. If nobody reads it, the patient never books. This pipeline reads each fax, pulls out what scheduling needs, flags what's missing, drafts the follow-ups, and tracks every referral until the patient is seen.</p>
+  <span class="note">All patients, providers and numbers below are synthetic. No real patient data is used anywhere.</span>
+
+  <section>
+    <h2>Try it on six faxes</h2>
+    <p class="small">These are real outputs from the code, mistakes included. Three faxes use layouts the parser was tuned on (dev). Three use layouts written by someone who never saw the parser (held-out), which is the honest test of what happens when a new clinic's form shows up.</p>
+    <div class="toggle"><input type="checkbox" id="showTruth" checked><label for="showTruth">Show the correct answer under each field</label></div>
+    <div class="demo">
+      <div class="list" id="list"></div>
+      <div class="fax"><img id="faxImg" alt="Synthetic referral fax" width="1100" height="1424"></div>
+      <div class="panel" id="panel"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How accurate is it?</h2>
+    <div class="scores" id="scores"></div>
+    <p class="small" style="margin-top:1rem">Field accuracy counts a field right only when it matches exactly after formatting is normalized (phone digits, ID characters). A "false fill" is the dangerous error: the system inventing a value for a field that was actually blank, which leads to a denied claim or a patient who is never reached. The rules version never did that on either set; when unsure, it leaves the field blank and flags it.</p>
+    <div class="panel" style="margin-top:1rem">
+      <div class="bars" id="bars"></div>
+    </div>
+    <p class="small" style="margin-top:1rem"><b>What the gap means.</b> On familiar layouts the rules hit <span id="devPct"></span>; on layouts they had never seen they fell to <span id="hoPct"></span>, mostly on patient name, diagnosis and ICD-10 code, because a new form puts its labels in new places. That gap is why the next step is a vision model with structured output (written and wired into the same test, not yet run). It will be scored on the exact same held-out faxes, and the result will be published here whether it wins or loses.</p>
+  </section>
+
+  <section>
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><b>Read the fax</b>Local text recognition on the CPU. Nothing leaves the machine, which matters for patient data.</div>
+      <div class="step"><b>Extract</b>Patient, date of birth, phone, insurance, member ID, specialty, diagnosis, ICD-10, urgency.</div>
+      <div class="step"><b>Flag what's missing</b>Blank beats wrong. Missing fields get a drafted request back to the referring office.</div>
+      <div class="step"><b>Draft follow-ups</b>A scheduling text to the patient and a missing-info fax. A person reviews and sends. Nothing auto-sends.</div>
+      <div class="step"><b>Track to "seen"</b>An append-only log: received, needs info, contacted, scheduled, seen. Urgent referrals go overdue at 24 hours without contact.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What it's worth to a practice</h2>
+    <p class="small">Every input is editable. Defaults are placeholders until each one is tied to a cited public source.</p>
+    <div class="roi">
+      <label>Referrals received per month<input id="rIn" type="number" value="300" min="0"></label>
+      <label>Share that never become a visit today (%)<input id="rLeak" type="number" value="30" min="0" max="100"></label>
+      <label>Share of those this recovers (%)<input id="rRec" type="number" value="25" min="0" max="100"></label>
+      <label>Revenue per new patient, first visit ($)<input id="rVal" type="number" value="170" min="0"></label>
+      <label>Downstream revenue per new patient ($)<input id="rDown" type="number" value="0" min="0"></label>
+      <div class="out">Recovered per month<b id="rOut">$0</b><span id="rOutN"></span></div>
+    </div>
+    <p class="src" id="rSrc">Sources: being verified. No default here is presented as a measured result.</p>
+  </section>
+
+  <footer>Built by <a href="/work">Mitchell Nicholas</a>, former medical assistant (2021 to 2025: internal medicine, pulmonology, orthopedics, sports medicine), now building AI systems. Python, local OCR, pydantic, Claude structured output, pytest.</footer>
+</div>
+<script>
+const FIELDS = {patient_name:"Patient", dob:"Date of birth", phone:"Phone", payer:"Insurance", member_id:"Member ID",
+  referring_provider:"Referred by", specialty:"Refer to", icd10:"ICD-10", reason:"Diagnosis", urgency:"Urgency"};
+const NICE = {L1:"Boxed form", L2:"Referral request", L3:"Letter", L4:"EHR order printout", L5:"Hand-filled form", L6:"Fax cover + note"};
+let data, cur = 0;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function pct(x){ return (x*100).toFixed(1) + "%"; }
+function render(){
+  const it = data.items[cur], show = document.getElementById("showTruth").checked;
+  document.querySelectorAll("#list button").forEach((b,i)=>b.setAttribute("aria-pressed", i===cur));
+  const img = document.getElementById("faxImg"); img.src = it.image;
+  const right = it.fields.filter(f=>!f.truly_missing).filter(f=>f.ok).length, n = it.fields.filter(f=>!f.truly_missing).length;
+  const needs = it.missing.filter(m=>m!=="icd10").length > 0;
+  let h = `<div class="stage"><span class="pill on">RECEIVED</span>${needs?'<span class="pill warn">NEEDS INFO</span>':''}<span class="pill">CONTACTED</span><span class="pill">SCHEDULED</span><span class="pill">SEEN</span></div>`;
+  h += `<div class="eyebrow" style="margin-bottom:.4rem">${esc(NICE[it.layout])} &middot; ${it.split} &middot; ${right} of ${n} fields right &middot; ${esc(it.urgency||"no urgency found")}</div>`;
+  h += `<table><tr><th>Field</th><th>Extracted</th></tr>`;
+  for (const f of it.fields){
+    let cls, mark;
+    if (f.truly_missing){ cls = f.got ? "bad" : "miss"; mark = f.got ? "invented" : "blank on fax, flagged"; }
+    else if (f.ok){ cls = "ok"; mark = "&#10003;"; } else { cls = "bad"; mark = f.got ? "&#10007; wrong" : "&#10007; not found"; }
+    h += `<tr><td class="k">${FIELDS[f.field]}</td><td class="v"><span class="${cls}">${esc(f.got)||"&mdash;"} <small>${mark}</small></span>${show && !f.truly_missing && !f.ok ? `<span class="truth">correct: ${esc(f.truth)}</span>`:""}</td></tr>`;
+  }
+  h += `</table>`;
+  h += `<div class="eyebrow" style="margin-top:1rem">Drafts for staff to review</div><div class="draft">${esc(it.drafts.patient_text)}</div>`;
+  if (it.drafts.missing_info_request) h += `<div class="draft">${esc(it.drafts.missing_info_request)}</div>`;
+  document.getElementById("panel").innerHTML = h;
+}
+function scores(){
+  const d = data.report.dev, o = data.report.held_out;
+  const caught = d.missing_flags.caught + o.missing_flags.caught, really = d.missing_flags.really_missing + o.missing_flags.really_missing;
+  const ff = d.missing_flags.false_fill + o.missing_flags.false_fill;
+  document.getElementById("scores").innerHTML = [
+    [pct(d.field_accuracy), `field accuracy on dev layouts (${d.referrals} faxes)`],
+    [pct(o.field_accuracy), `field accuracy on held-out layouts (${o.referrals} faxes, never seen)`],
+    [`${ff}`, "false fills: values invented for blank fields, both sets"],
+    [`${caught}/${really}`, "truly missing fields caught and flagged"],
+  ].map(([b,s])=>`<div class="score"><b>${b}</b><span>${s}</span></div>`).join("");
+  document.getElementById("devPct").textContent = pct(d.field_accuracy);
+  document.getElementById("hoPct").textContent = pct(o.field_accuracy);
+  const frac = s => { const [a,b] = s.split("/").map(Number); return b ? a/b : 0; };
+  let h = `<span class="h">Field</span><span class="h">Dev</span><span class="h">Held-out</span>`;
+  for (const k of Object.keys(FIELDS)){
+    const a = frac(d.per_field[k]), b = frac(o.per_field[k]);
+    h += `<span>${FIELDS[k]}</span><div class="bar"><i style="width:${a*100}%"></i><em>${Math.round(a*100)}%</em></div><div class="bar ho"><i style="width:${b*100}%"></i><em>${Math.round(b*100)}%</em></div>`;
+  }
+  document.getElementById("bars").innerHTML = h;
+}
+function roi(){
+  const v = id => Math.max(0, Number(document.getElementById(id).value)||0);
+  const pts = v("rIn") * v("rLeak")/100 * v("rRec")/100;
+  const usd = pts * (v("rVal") + v("rDown"));
+  document.getElementById("rOut").textContent = "$" + Math.round(usd).toLocaleString();
+  document.getElementById("rOutN").textContent = `${pts.toFixed(1)} more patients seen per month`;
+}
+document.querySelectorAll(".roi input").forEach(i=>i.addEventListener("input", roi)); roi();
+document.getElementById("showTruth").addEventListener("change", render);
+fetch("demo.json").then(r=>r.json()).then(j=>{
+  data = j;
+  document.getElementById("list").innerHTML = data.items.map((it,i)=>`<button type="button" data-i="${i}"><b>${esc(NICE[it.layout])}</b><span>${it.split}${it.missing.filter(m=>m!=="icd10").length?" &middot; missing info":""}</span></button>`).join("");
+  document.querySelectorAll("#list button").forEach(b=>b.addEventListener("click", ()=>{ cur = +b.dataset.i; render(); }));
+  render(); scores();
+});
+</script>
+</body>
+</html>

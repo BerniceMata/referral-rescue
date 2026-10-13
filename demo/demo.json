@@ -1,0 +1,587 @@
+{
+ "items": [
+  {
+   "id": "rr000",
+   "layout": "L1",
+   "split": "dev",
+   "image": "faxes/dev-L1-rr000.png",
+   "urgency": "Routine",
+   "fields": [
+    {
+     "field": "patient_name",
+     "got": "HelenA Adams",
+     "truth": "Helen Adams",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "dob",
+     "got": "08/15/2002",
+     "truth": "08/15/2002",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "phone",
+     "got": "",
+     "truth": "(214) 555-0165",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "payer",
+     "got": "Cigna",
+     "truth": "Cigna",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "member_id",
+     "got": "FZ879217421",
+     "truth": "FZ879217421",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "referring_provider",
+     "got": "Dr. Angela Baker",
+     "truth": "Dr. Angela Baker",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "specialty",
+     "got": "Pulmonology",
+     "truth": "Pulmonology",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "icd10",
+     "got": "R91.1",
+     "truth": "R91.1",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "reason",
+     "got": "",
+     "truth": "Solitary pulmonary nodule",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "urgency",
+     "got": "Routine",
+     "truth": "Routine",
+     "ok": true,
+     "truly_missing": false
+    }
+   ],
+   "missing": [
+    "phone",
+    "reason"
+   ],
+   "drafts": {
+    "patient_text": "Hi HelenA, this is the pulmonology office. Dr. Angela Baker referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for HelenA Adams (DOB 08/15/2002). To schedule, we still need: patient phone number, reason for referral. Please fax it back to this number. Thank you."
+   }
+  },
+  {
+   "id": "rr001",
+   "layout": "L2",
+   "split": "dev",
+   "image": "faxes/dev-L2-rr001.png",
+   "urgency": "Routine",
+   "fields": [
+    {
+     "field": "patient_name",
+     "got": "Brian Hall",
+     "truth": "Brian Hall",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "dob",
+     "got": "",
+     "truth": "",
+     "ok": true,
+     "truly_missing": true
+    },
+    {
+     "field": "phone",
+     "got": "(214) 555-0139",
+     "truth": "(214) 555-0139",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "payer",
+     "got": "Aetna",
+     "truth": "Aetna",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "member_id",
+     "got": "MT235423356",
+     "truth": "MT235423356",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "referring_provider",
+     "got": "Dr. James Mitchell",
+     "truth": "Dr. James Mitchell",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "specialty",
+     "got": "Orthopedics",
+     "truth": "Orthopedics",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "icd10",
+     "got": "M17.11",
+     "truth": "M17.11",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "reason",
+     "got": "Unilateral primary osteoarthritis, right knee",
+     "truth": "Unilateral primary osteoarthritis, right knee",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "urgency",
+     "got": "Routine",
+     "truth": "Routine",
+     "ok": true,
+     "truly_missing": false
+    }
+   ],
+   "missing": [
+    "dob"
+   ],
+   "drafts": {
+    "patient_text": "Hi Brian, this is the orthopedics office. Dr. James Mitchell referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for Brian Hall. To schedule, we still need: date of birth. Please fax it back to this number. Thank you."
+   }
+  },
+  {
+   "id": "rr002",
+   "layout": "L3",
+   "split": "dev",
+   "image": "faxes/dev-L3-rr002.png",
+   "urgency": "Routine",
+   "fields": [
+    {
+     "field": "patient_name",
+     "got": "Gregory Baker",
+     "truth": "Gregory Baker",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "dob",
+     "got": "05/07/1962",
+     "truth": "05/07/1962",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "phone",
+     "got": "",
+     "truth": "(214) 555-0135",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "payer",
+     "got": "Blue Cross Blue Shield of Texas",
+     "truth": "Blue Cross Blue Shield of Texas",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "member_id",
+     "got": "PJ942285253",
+     "truth": "PJ942285253",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "referring_provider",
+     "got": "Dr. Tamika Wright",
+     "truth": "Dr. Tamika Wright",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "specialty",
+     "got": "Orthopedics",
+     "truth": "Orthopedics",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "icd10",
+     "got": "M54.50",
+     "truth": "M54.50",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "reason",
+     "got": "Low back pain, unspecified",
+     "truth": "Low back pain, unspecified",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "urgency",
+     "got": "Routine",
+     "truth": "Routine",
+     "ok": true,
+     "truly_missing": false
+    }
+   ],
+   "missing": [
+    "phone"
+   ],
+   "drafts": {
+    "patient_text": "Hi Gregory, this is the orthopedics office. Dr. Tamika Wright referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for Gregory Baker (DOB 05/07/1962). To schedule, we still need: patient phone number. Please fax it back to this number. Thank you."
+   }
+  },
+  {
+   "id": "rr000",
+   "layout": "L4",
+   "split": "held-out",
+   "image": "faxes/held-out-L4-rr000.png",
+   "urgency": "Urgent",
+   "fields": [
+    {
+     "field": "patient_name",
+     "got": "Demographics",
+     "truth": "Denise Davis",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "dob",
+     "got": "04/08/1960",
+     "truth": "04/08/1960",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "phone",
+     "got": "(214) 555-0117",
+     "truth": "(214) 555-0117",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "payer",
+     "got": "Blue Cross Blue Shield of Texas",
+     "truth": "Blue Cross Blue Shield of Texas",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "member_id",
+     "got": "",
+     "truth": "",
+     "ok": true,
+     "truly_missing": true
+    },
+    {
+     "field": "referring_provider",
+     "got": "Dr. Brian Rodriguez",
+     "truth": "Dr. Brian Rodriguez",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "specialty",
+     "got": "",
+     "truth": "Pulmonology",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "icd10",
+     "got": "",
+     "truth": "G47.33",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "reason",
+     "got": "DX C0DE",
+     "truth": "Obstructive sleep apnea",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "urgency",
+     "got": "Urgent",
+     "truth": "Urgent",
+     "ok": true,
+     "truly_missing": false
+    }
+   ],
+   "missing": [
+    "member_id",
+    "icd10"
+   ],
+   "drafts": {
+    "patient_text": "Hi Demographics, this is the specialist office. Dr. Brian Rodriguez referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for Demographics (DOB 04/08/1960). To schedule, we still need: insurance member ID, diagnosis (ICD-10) code. Please fax it back to this number. Thank you."
+   }
+  },
+  {
+   "id": "rr004",
+   "layout": "L5",
+   "split": "held-out",
+   "image": "faxes/held-out-L5-rr004.png",
+   "urgency": "Routine",
+   "fields": [
+    {
+     "field": "patient_name",
+     "got": "",
+     "truth": "Helen Adams",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "dob",
+     "got": "03/14/1961",
+     "truth": "03/14/1961",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "phone",
+     "got": "(214) 555-0123",
+     "truth": "(214) 555-0123",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "payer",
+     "got": "",
+     "truth": "",
+     "ok": true,
+     "truly_missing": true
+    },
+    {
+     "field": "member_id",
+     "got": "DJ0417704700R",
+     "truth": "DJ041770470",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "referring_provider",
+     "got": "Dr. Anthony Rodriguez",
+     "truth": "Dr. Anthony Rodriguez",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "specialty",
+     "got": "Pulmonology",
+     "truth": "Pulmonology",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "icd10",
+     "got": "J45.40",
+     "truth": "J45.40",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "reason",
+     "got": "",
+     "truth": "Moderate persistent asthma, uncomplicated",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "urgency",
+     "got": "Routine",
+     "truth": "STAT",
+     "ok": false,
+     "truly_missing": false
+    }
+   ],
+   "missing": [
+    "patient_name",
+    "payer",
+    "reason"
+   ],
+   "drafts": {
+    "patient_text": "Hi there, this is the pulmonology office. Dr. Anthony Rodriguez referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for your patient (DOB 03/14/1961). To schedule, we still need: patient name, insurance carrier, reason for referral. Please fax it back to this number. Thank you."
+   }
+  },
+  {
+   "id": "rr002",
+   "layout": "L6",
+   "split": "held-out",
+   "image": "faxes/held-out-L6-rr002.png",
+   "urgency": "Routine",
+   "fields": [
+    {
+     "field": "patient_name",
+     "got": "referral request ROuTINE",
+     "truth": "Kevin Thomas",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "dob",
+     "got": "11/25/1990",
+     "truth": "11/25/1990",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "phone",
+     "got": "(214) 555-0153",
+     "truth": "(214) 555-0153",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "payer",
+     "got": "Texas Medicaid",
+     "truth": "Texas Medicaid",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "member_id",
+     "got": "JO677246683",
+     "truth": "JO677246683",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "referring_provider",
+     "got": "Dr. Angela Hall",
+     "truth": "Dr. Angela Hall",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "specialty",
+     "got": "Orthopedics",
+     "truth": "Orthopedics",
+     "ok": true,
+     "truly_missing": false
+    },
+    {
+     "field": "icd10",
+     "got": "",
+     "truth": "S83.511A",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "reason",
+     "got": "",
+     "truth": "Sprain of anterior cruciate ligament of right knee, initial encounter",
+     "ok": false,
+     "truly_missing": false
+    },
+    {
+     "field": "urgency",
+     "got": "Routine",
+     "truth": "Routine",
+     "ok": true,
+     "truly_missing": false
+    }
+   ],
+   "missing": [
+    "reason",
+    "icd10"
+   ],
+   "drafts": {
+    "patient_text": "Hi referral, this is the orthopedics office. Dr. Angela Hall referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for referral request ROuTINE (DOB 11/25/1990). To schedule, we still need: reason for referral, diagnosis (ICD-10) code. Please fax it back to this number. Thank you."
+   }
+  }
+ ],
+ "report": {
+  "dev": {
+   "set": "C:\\Users\\falco\\Desktop\\referral-rescue\\data\\dev",
+   "extractor": "rules",
+   "referrals": 30,
+   "field_accuracy": 0.884,
+   "per_field": {
+    "patient_name": "28/30",
+    "dob": "21/24",
+    "phone": "22/28",
+    "payer": "26/29",
+    "member_id": "21/25",
+    "referring_provider": "25/30",
+    "specialty": "28/30",
+    "icd10": "24/29",
+    "reason": "27/30",
+    "urgency": "30/30"
+   },
+   "per_layout": {
+    "L1": 0.716,
+    "L2": 1.0,
+    "L3": 0.937
+   },
+   "missing_flags": {
+    "really_missing": 15,
+    "caught": 15,
+    "false_fill": 0,
+    "false_alarm": 19
+   },
+   "clean_referrals": 17
+  },
+  "held_out": {
+   "set": "C:\\Users\\falco\\Desktop\\referral-rescue\\data\\test",
+   "extractor": "rules",
+   "referrals": 30,
+   "field_accuracy": 0.604,
+   "per_field": {
+    "patient_name": "0/30",
+    "dob": "27/28",
+    "phone": "27/27",
+    "payer": "27/27",
+    "member_id": "22/28",
+    "referring_provider": "28/30",
+    "specialty": "17/30",
+    "icd10": "5/28",
+    "reason": "0/30",
+    "urgency": "21/30"
+   },
+   "per_layout": {
+    "L4": 0.573,
+    "L5": 0.553,
+    "L6": 0.684
+   },
+   "missing_flags": {
+    "really_missing": 12,
+    "caught": 12,
+    "false_fill": 0,
+    "false_alarm": 54
+   },
+   "clean_referrals": 0
+  }
+ }
+}
