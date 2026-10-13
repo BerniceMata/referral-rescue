@@ -13,9 +13,14 @@ After comparing against Tennr, Commure, Notable, ReferralMD, Assort Health and t
 | | Faxes | Field accuracy | ICD-10 | False fills | Auto-accept (conf >= 0.85): share, precision |
 |---|---|---|---|---|---|
 | Dev (L1-L3) | 30 | 89.1% | 26/29 | 0 | 78%, 98.6% |
-| Held-out (L4-L6), re-scored | 30 | 70.5% | 24/28 | 0 | 38%, 67.3% |
+| Held-out set 1 (L4-L6), re-scored after fixes | 30 | 69.4% | 24/28 | 0 | 38%, 67.3% |
+| Held-out set 2 (L7-L9), FIRST BLIND CONTACT | 30 | 63.4% | 24/29 | **4** | 48%, 46.0% |
+| Held-out set 2 (L7-L9), after two fixes | 30 | 70.5% | 24/29 | 0 | 40%, 55.2% |
 
-Honesty note: the clean held-out number is still the 60.4% below, scored once with the parser frozen. The fixes above were informed by looking at those held-out failures, so L4-L6 is now a dev set too. A third set of layouts (L7-L9), written blind by a separate agent, is the next clean test. The auto-accept precision on new layouts (67%) says plainly that "found under a label" is not yet a trustworthy confidence signal; that is the next thing to fix.
+How to read this honestly:
+- Each held-out set was written by a separate agent that never saw the parser, and the parser was committed before scoring. The "first blind contact" row is the real number for how this parser meets a new clinic's form: about two thirds of fields right, and 4 invented values out of 8 blank fields.
+- Those 4 false fills were the fuzzy payer matcher turning an OCR'd word into "Anthem" (3) and a member-ID grab accepting "ONTHECARD" (1). Both fallbacks are now strict (short payer names must match exactly; an ID needs 4 digits). After that, zero false fills on all 90 faxes, but the set is no longer blind, so the next clean test needs a fourth layout set.
+- Confidence does not transfer to new layouts yet: auto-accept precision is 99% on dev and about 55% on new forms. "Found under a label" is not a trustworthy signal when the label caught the wrong text. A staff review queue cannot skip fields on that basis today; that is the next thing to fix, and a vision model scored on the same sets is the likely answer.
 
 ## Results (rules baseline, local OCR, $0)
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Transition of Care Referral</title>
+<style>
+html, body { margin: 0; padding: 0; background: #fff; color: #000; }
+body {
+  width: 1275px; height: 1650px; overflow: hidden; box-sizing: border-box;
+  padding: 72px 80px 56px 80px; position: relative;
+  font-family: "Times New Roman", Times, Georgia, serif; font-size: 23px; line-height: 1.42;
+}
+.org { text-align: center; font-size: 30px; font-weight: bold; letter-spacing: 1px; }
+.orgsub { text-align: center; font-size: 19px; margin-top: 2px; }
+.rule { border-top: 4px solid #000; margin: 14px 0 6px 0; }
+.rule2 { border-top: 1px solid #000; margin: 0 0 18px 0; }
+h1 { text-align: center; font-size: 30px; margin: 10px 0 18px 0; letter-spacing: 2px; }
+h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 1px; margin: 22px 0 4px 0; border-bottom: 1px solid #000; }
+p { margin: 0 0 8px 0; text-align: justify; }
+.hdr p { margin: 0; text-align: left; font-size: 22px; }
+.f:empty { display: inline-block; min-width: 170px; border-bottom: 2px solid #000; height: 18px; }
+.sign { margin-top: 26px; font-size: 22px; }
+.sign .line { border-bottom: 2px solid #000; width: 520px; height: 34px; }
+.foot { position: absolute; left: 80px; right: 80px; bottom: 44px; border-top: 2px solid #000; padding-top: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div class="org">LARKSPUR COMMUNITY HOSPITAL</div>
+<div class="orgsub">Care Transitions Office &nbsp;|&nbsp; Tel (817) 555-0003 &nbsp;|&nbsp; Fax (817) 555-0006</div>
+<div class="rule"></div><div class="rule2"></div>
+
+<h1>TRANSITION OF CARE / REFERRAL</h1>
+
+<div class="hdr">
+  <p><b>To:</b> <span class="f">$specialty</span> Clinic, new patient scheduling</p>
+  <p><b>Date of note:</b> <span class="f">$date_sent</span></p>
+  <p><b>Re:</b> <span class="f">$patient_name</span></p>
+</div>
+
+<h2>Reason for referral</h2>
+<p>This note transfers specialty follow-up for <span class="f">$patient_name</span>, date of birth <span class="f">$dob</span>, to your <span class="f">$specialty</span> service. The patient was evaluated by our team and carries a working diagnosis of <span class="f">$reason</span>, classified under ICD-10 as <span class="f">$icd10</span>. We are asking your clinic to take over specialty evaluation and ongoing management.</p>
+
+<h2>Hospital course and current status</h2>
+<p>The patient completed a short stay with our service and is now clinically stable for outpatient care. Home medications were reviewed with the patient and no changes were made at discharge. Teaching was completed with the patient and a family member, and written instructions were provided. Our case manager confirmed that the patient understands the plan and the warning signs that should prompt an earlier call.</p>
+<p>The patient can be reached at <span class="f">$phone</span> to arrange the visit.</p>
+
+<h2>Coverage</h2>
+<p>For scheduling and eligibility, the patient is insured through <span class="f">$payer</span>, and the member ID on the card presented at discharge is <span class="f">$member_id</span>. Please verify benefits before the first appointment.</p>
+
+<h2>Requested timing</h2>
+<p id="timing">Our records show no preferred timing for this visit; please schedule at your earliest availability.</p>
+
+<h2>Referring clinician and communication</h2>
+<p>Primary follow-up remains with <span class="f">$referring_provider</span> of <span class="f">$referring_practice</span>, who has been informed of this referral and will receive your consultation report. Please send the report to the referring office once the visit is complete.</p>
+
+<div class="sign">
+  <div class="line"></div>
+  Care Transitions Coordinator, on behalf of the discharging team
+</div>
+
+<div class="foot"><span>Priority code: <span id="pc">$urgency_upper</span></span><span>Confidential health information &nbsp;|&nbsp; Page 1 of 1</span></div>
+
+<script>
+(function () {
+  var code = (document.getElementById("pc").textContent || "").replace(/\s+/g, "").toUpperCase();
+  var t = document.getElementById("timing");
+  var map = {
+    "ROUTINE": "We request that arrangements be made for the patient to be seen within 2 weeks of the date of this note.",
+    "URGENT": "We request that arrangements be made for the patient to be seen within 48 hours of the date of this note.",
+    "STAT": "Because of the patient's condition, we request that arrangements be made for the patient to be seen same day."
+  };
+  if (map[code]) { t.textContent = map[code]; }
+  else { t.textContent = "No specific timing was recorded with this referral. Please contact the Care Transitions Office with any scheduling questions."; }
+})();
+</script>
+</body>
+</html>

@@ -62,6 +62,8 @@ def _fuzzy_pick(text, options, cutoff=0.82):
         o = re.sub(r"\s+", "", opt.lower())
         if o in low:
             s = 1.0 + len(o) / 100           # prefer the longest exact match
+        elif len(o) < 8:
+            s = 0                            # short names (Aetna, Cigna, Anthem) must appear exactly; fuzzy invented them
         else:
             n = len(o)
             s = max((difflib.SequenceMatcher(None, o, low[i:i + n]).ratio()
@@ -157,7 +159,11 @@ def extract(image):
     p, s = _fuzzy_pick(lab, PAYERS) if lab else (None, 0)
     how["payer"] = "label"
     if not p:
-        p, s = _fuzzy_pick(text, PAYERS, cutoff=0.88)
+        # no label: accept only an exact (space-insensitive) payer name on the page; fuzzy scans invented "Anthem"
+        # out of "another" on blind layouts (2026-10-13)
+        flat = re.sub(r"\s+", "", text.lower())
+        hits = [o for o in PAYERS if re.sub(r"\s+", "", o.lower()) in flat]
+        p = max(hits, key=len) if hits else None
         how["payer"] = "scan"
     out["payer"] = p or ""
 
@@ -167,7 +173,7 @@ def extract(image):
         lv = _after_label(r, "member_id")
         if lv is None:
             continue
-        tok = re.findall(r"[A-Za-z0-9]{7,15}", lv.replace(" ", ""))
+        tok = [t for t in re.findall(r"[A-Za-z0-9]{7,15}", lv.replace(" ", "")) if sum(c.isdigit() for c in t) >= 4]
         if tok:
             mid = tok[0]; how["member_id"] = "label"; break
     if not mid:

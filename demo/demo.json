@@ -289,9 +289,9 @@
     },
     {
      "field": "payer",
-     "got": "Blue Cross Blue Shield of Texas",
+     "got": "",
      "truth": "Blue Cross Blue Shield of Texas",
-     "ok": true,
+     "ok": false,
      "truly_missing": false
     },
     {
@@ -338,11 +338,12 @@
     }
    ],
    "missing": [
+    "payer",
     "member_id"
    ],
    "drafts": {
     "patient_text": "Hi FirSt, this is the specialist office. Dr. Brian Rodriguez referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
-    "missing_info_request": "Re: referral for FirSt Mrn laSt (DOB 04/08/1960). To schedule, we still need: insurance member ID. Please fax it back to this number. Thank you."
+    "missing_info_request": "Re: referral for FirSt Mrn laSt (DOB 04/08/1960). To schedule, we still need: insurance carrier, insurance member ID. Please fax it back to this number. Thank you."
    }
   },
   {
@@ -560,12 +561,12 @@
    "set": "C:\\Users\\falco\\Desktop\\referral-rescue\\data\\test",
    "extractor": "rules",
    "referrals": 30,
-   "field_accuracy": 0.705,
+   "field_accuracy": 0.694,
    "per_field": {
     "patient_name": "10/30",
     "dob": "27/28",
     "phone": "27/27",
-    "payer": "27/27",
+    "payer": "24/27",
     "member_id": "22/28",
     "referring_provider": "28/30",
     "specialty": "17/30",
@@ -574,15 +575,15 @@
     "urgency": "21/30"
    },
    "per_layout": {
-    "L4": 0.667,
-    "L5": 0.596,
+    "L4": 0.646,
+    "L5": 0.585,
     "L6": 0.847
    },
    "missing_flags": {
     "really_missing": 12,
     "caught": 12,
     "false_fill": 0,
-    "false_alarm": 35
+    "false_alarm": 38
    },
    "clean_referrals": 0,
    "auto_accept": {

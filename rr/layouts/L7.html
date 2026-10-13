@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consultation Request</title>
+<style>
+html, body { margin: 0; padding: 0; background: #fff; color: #000; }
+body {
+  width: 1275px; height: 1650px; overflow: hidden; box-sizing: border-box;
+  padding: 70px 66px 60px 66px;
+  font-family: Arial, Helvetica, sans-serif; font-size: 21px; line-height: 1.25;
+}
+.title { font-size: 42px; font-weight: bold; letter-spacing: 1px; margin: 0; }
+.subtitle { font-size: 20px; margin: 6px 0 0 0; }
+.rule { border-top: 5px solid #000; margin: 16px 0 26px 0; }
+.page { display: flex; flex-direction: row; align-items: flex-start; }
+.main { width: 790px; }
+.side { width: 305px; margin-left: 42px; border-left: 3px solid #000; padding-left: 26px; box-sizing: border-box; }
+.q { font-size: 19px; font-weight: bold; margin: 0 0 4px 0; }
+.a { font-size: 23px; border-bottom: 2px solid #000; min-height: 34px; padding: 2px 4px 2px 4px; }
+.a.tall { min-height: 92px; }
+.field { margin-bottom: 24px; }
+.pair { display: flex; flex-direction: row; margin-bottom: 24px; }
+.pair .field { margin-bottom: 0; }
+.pair .l { width: 370px; }
+.pair .r { width: 380px; margin-left: 40px; }
+.boxes { font-family: "Courier New", Courier, monospace; font-size: 24px; font-weight: bold; padding: 4px 4px; border-bottom: 2px solid #000; }
+.boxes span { margin-right: 26px; white-space: nowrap; }
+.sq { display: inline-block; width: 18px; height: 18px; border: 2px solid #000; vertical-align: -3px; margin-right: 8px; }
+.attach { font-size: 20px; margin-top: 4px; }
+.attach span { margin-right: 28px; white-space: nowrap; }
+.sig { margin-top: 34px; font-size: 19px; }
+.sig .line { border-bottom: 2px solid #000; height: 40px; width: 560px; }
+.side h2 { font-size: 21px; margin: 0 0 14px 0; text-transform: uppercase; letter-spacing: 1px; border-bottom: 3px solid #000; padding-bottom: 6px; }
+.side .pname { font-size: 25px; font-weight: bold; margin-bottom: 12px; }
+.side p { margin: 0 0 12px 0; font-size: 20px; }
+.side .lab { font-size: 17px; font-weight: bold; text-transform: uppercase; display: block; }
+.stamp {
+  margin-top: 40px; margin-left: 6px; width: 248px; text-align: center;
+  border: 6px double #000; padding: 12px 6px 10px 6px; transform: rotate(-5deg);
+}
+.stamp .big { font-size: 44px; font-weight: bold; letter-spacing: 3px; }
+.stamp .small { font-size: 17px; font-weight: bold; text-transform: uppercase; margin-top: 4px; }
+.stamp .init { font-size: 19px; margin-top: 12px; text-align: left; padding-left: 8px; }
+.note { margin-top: 36px; font-size: 18px; border: 2px solid #000; padding: 10px 12px; }
+.foot { margin-top: 34px; font-size: 17px; border-top: 2px solid #000; padding-top: 8px; width: 1143px; }
+</style>
+</head>
+<body>
+<h1 class="title">CONSULTATION REQUEST</h1>
+<p class="subtitle">Please answer every question so the specialist's office can schedule without calling back.</p>
+<div class="rule"></div>
+
+<div class="page">
+  <div class="main">
+    <div class="field">
+      <p class="q">Who is the patient?</p>
+      <div class="a">$patient_name</div>
+    </div>
+
+    <div class="pair">
+      <div class="field l">
+        <p class="q">Date of birth?</p>
+        <div class="a">$dob</div>
+      </div>
+      <div class="field r">
+        <p class="q">Best phone number to reach them?</p>
+        <div class="a">$phone</div>
+      </div>
+    </div>
+
+    <div class="pair">
+      <div class="field l">
+        <p class="q">Which insurance covers this visit?</p>
+        <div class="a">$payer</div>
+      </div>
+      <div class="field r">
+        <p class="q">What is the member ID on the card?</p>
+        <div class="a">$member_id</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="q">Who is asking for the consult?</p>
+      <div class="a">$referring_provider</div>
+    </div>
+
+    <div class="field">
+      <p class="q">Which kind of specialist should see them?</p>
+      <div class="a">$specialty</div>
+    </div>
+
+    <div class="field">
+      <p class="q">Reason for consult?</p>
+      <div class="a tall">$reason</div>
+    </div>
+
+    <div class="pair">
+      <div class="field l">
+        <p class="q">Diagnosis code (ICD-10)?</p>
+        <div class="a">$icd10</div>
+      </div>
+      <div class="field r">
+        <p class="q">When was this request sent?</p>
+        <div class="a">$date_sent</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="q">How soon does the patient need to be seen?</p>
+      <div class="boxes"><span>$box_routine Routine</span><span>$box_urgent Urgent</span><span>$box_stat STAT</span></div>
+    </div>
+
+    <div class="field">
+      <p class="q">What are we sending with this request?</p>
+      <div class="attach"><span><i class="sq"></i>Office notes</span><span><i class="sq"></i>Imaging</span><span><i class="sq"></i>Lab results</span></div>
+    </div>
+
+    <div class="sig">
+      <div class="line"></div>
+      Requesting clinician signature
+    </div>
+  </div>
+
+  <div class="side">
+    <h2>Sent from</h2>
+    <div class="pname">$referring_practice</div>
+    <p><span class="lab">Address</span>2815 Meadow Run Pkwy<br>Suite 140<br>Plano, TX 75093</p>
+    <p><span class="lab">Office phone</span>(972) 555-0004</p>
+    <p><span class="lab">Office fax</span>(972) 555-0005</p>
+    <p><span class="lab">Referral desk</span>Ext. 214<br>Mon to Fri, 8 AM to 5 PM</p>
+    <div class="stamp">
+      <div class="big">RECEIVED</div>
+      <div class="small">Specialty intake desk</div>
+      <div class="init">Initials: ______</div>
+    </div>
+    <div class="note">Send the appointment confirmation to the office fax listed above.</div>
+  </div>
+</div>
+
+<div class="foot">Confidential health information intended only for the addressee. If received in error, notify the sender and destroy all copies.</div>
+</body>
+</html>

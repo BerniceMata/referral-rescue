@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Order Requisition</title>
+<style>
+html, body { margin: 0; padding: 0; background: #fff; color: #000; }
+body {
+  width: 1275px; height: 1650px; overflow: hidden; box-sizing: border-box;
+  padding: 64px 64px 56px 64px;
+  font-family: Tahoma, Verdana, Geneva, sans-serif; font-size: 19px; line-height: 1.22;
+}
+.head { display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end; border-bottom: 5px solid #000; padding-bottom: 10px; }
+.head h1 { margin: 0; font-size: 38px; letter-spacing: 1px; }
+.head .meta { text-align: right; font-size: 18px; }
+.sec { border: 2px solid #000; margin-top: 16px; }
+.sec h2 { margin: 0; padding: 4px 10px; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 2px solid #000; }
+.body { padding: 8px 10px 10px 10px; }
+.row { display: flex; flex-direction: row; }
+.col { flex: 1; }
+.cell { margin: 0 0 8px 0; }
+.lbl { font-size: 15px; font-weight: bold; text-transform: uppercase; display: block; letter-spacing: 0.5px; }
+.val { font-size: 21px; display: block; min-height: 26px; border-bottom: 1px solid #000; padding-bottom: 1px; }
+.two { display: flex; flex-direction: row; margin-top: 16px; }
+.two .sec { margin-top: 0; }
+.two .a { width: 563px; }
+.two .b { width: 563px; margin-left: 18px; }
+table { border-collapse: collapse; width: 100%; font-size: 19px; }
+th, td { border: 1px solid #000; padding: 3px 7px; text-align: left; vertical-align: top; }
+th { font-size: 15px; text-transform: uppercase; }
+.vit td { font-size: 20px; }
+.chk span { display: inline-block; margin-right: 22px; white-space: nowrap; font-size: 19px; line-height: 1.55; }
+.sq { display: inline-block; width: 15px; height: 15px; border: 2px solid #000; vertical-align: -2px; margin-right: 6px; }
+.sq.on { background: #000; }
+.mono { font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 21px; }
+.ref { border-width: 3px; }
+.ref h2 { font-size: 20px; }
+.sigrow { display: flex; flex-direction: row; margin-top: 14px; }
+.sigrow div { flex: 1; font-size: 15px; font-weight: bold; text-transform: uppercase; border-top: 2px solid #000; padding-top: 3px; margin-right: 30px; }
+.foot { margin-top: 12px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>ORDER REQUISITION</h1>
+  <div class="meta">Req. no. RQ-70418-C<br>Encounter: office visit, established patient<br>Page 1 of 1</div>
+</div>
+
+<div class="sec">
+  <h2>Section 1: Patient / coverage</h2>
+  <div class="body">
+    <div class="row">
+      <div class="col cell" style="margin-right:20px"><span class="lbl">Patient (last, first)</span><span class="val">$last_first</span></div>
+      <div class="col cell" style="margin-right:20px"><span class="lbl">Date of birth</span><span class="val">$dob</span></div>
+      <div class="col cell"><span class="lbl">Contact phone</span><span class="val">$phone</span></div>
+    </div>
+    <div class="row">
+      <div class="col cell" style="margin-right:20px"><span class="lbl">Primary payer</span><span class="val">$payer</span></div>
+      <div class="col cell"><span class="lbl">Member / subscriber ID</span><span class="val">$member_id</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="two">
+  <div class="sec a">
+    <h2>Section 2: Vitals (today)</h2>
+    <div class="body">
+      <table class="vit">
+        <tr><th>BP</th><th>Pulse</th><th>Temp</th><th>Resp</th></tr>
+        <tr><td>132/84</td><td>78</td><td>98.2 F</td><td>16</td></tr>
+        <tr><th>SpO2</th><th>Height</th><th>Weight</th><th>BMI</th></tr>
+        <tr><td>97 %</td><td>5 ft 8 in</td><td>191 lb</td><td>29.0</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="sec b">
+    <h2>Section 3: Allergies / reactions</h2>
+    <div class="body">
+      <table>
+        <tr><th>Agent</th><th>Reaction</th></tr>
+        <tr><td>Sulfonamide antibiotics</td><td>Hives</td></tr>
+        <tr><td>Iodinated contrast</td><td>Mild rash</td></tr>
+        <tr><td>Latex</td><td>None known</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>Section 4: Current medications</h2>
+  <div class="body">
+    <table>
+      <tr><th style="width:300px">Drug</th><th style="width:170px">Dose</th><th style="width:270px">Frequency</th><th>Status</th></tr>
+      <tr><td>Veldopril</td><td>10 mg tablet</td><td>Once daily</td><td>Continue</td></tr>
+      <tr><td>Tamsorine</td><td>0.4 mg capsule</td><td>At bedtime</td><td>Continue</td></tr>
+      <tr><td>Carlovex</td><td>500 mg tablet</td><td>Twice daily with meals</td><td>Continue</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>Section 5: Laboratory / diagnostic orders</h2>
+  <div class="body chk">
+    <span><i class="sq on"></i>CBC with differential</span>
+    <span><i class="sq on"></i>Basic metabolic panel</span>
+    <span><i class="sq"></i>Lipid panel</span>
+    <span><i class="sq"></i>Hemoglobin A1c</span>
+    <span><i class="sq"></i>Chest x-ray, 2 view</span>
+    <span><i class="sq"></i>12-lead ECG</span>
+  </div>
+</div>
+
+<div class="sec ref">
+  <h2>Section 6: Specialty referral</h2>
+  <div class="body">
+    <div class="row">
+      <div class="col cell" style="margin-right:20px"><span class="lbl">Refer to (service)</span><span class="val">$specialty</span></div>
+      <div class="col cell"><span class="lbl">Date ordered</span><span class="val">$date_sent</span></div>
+    </div>
+    <div class="row">
+      <div class="col cell" style="margin-right:20px; flex:2"><span class="lbl">Clinical Indication</span><span class="val">$reason</span></div>
+      <div class="col cell"><span class="lbl">ICD-10-CM</span><span class="val mono">$icd10</span></div>
+    </div>
+    <div class="row">
+      <div class="col cell" style="margin-right:20px"><span class="lbl">Ordering provider</span><span class="val">$referring_provider</span></div>
+      <div class="col cell"><span class="lbl">Ordering practice</span><span class="val">$referring_practice</span></div>
+    </div>
+    <div class="cell"><span class="lbl">Priority</span><span class="val mono" style="border-bottom:none">$box_routine Routine &nbsp;&nbsp; $box_urgent Urgent &nbsp;&nbsp; $box_stat STAT</span></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>Section 7: Follow-up / instructions</h2>
+  <div class="body">
+    <div class="chk">
+      <span><i class="sq on"></i>Return to clinic in 4 weeks</span>
+      <span><i class="sq"></i>Call patient with results</span>
+      <span><i class="sq"></i>Fasting required</span>
+    </div>
+    <div class="sigrow"><div>Ordering provider signature</div><div>Date / time</div></div>
+  </div>
+</div>
+
+<div class="foot">This requisition is valid only with a signature. Retain a copy in the patient chart.</div>
+</body>
+</html>
