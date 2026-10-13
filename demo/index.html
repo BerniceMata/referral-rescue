@@ -114,16 +114,16 @@
 
   <section>
     <h2>What it's worth to a practice</h2>
-    <p class="small">Every input is editable. Defaults are placeholders until each one is tied to a cited public source.</p>
+    <p class="small">Every input is editable. The defaults are deliberately conservative: the low end of published leakage, the Medicare rate for the first visit only, and zero for any care that follows.</p>
     <div class="roi">
-      <label>Referrals received per month<input id="rIn" type="number" value="300" min="0"></label>
-      <label>Share that never become a visit today (%)<input id="rLeak" type="number" value="30" min="0" max="100"></label>
-      <label>Share of those this recovers (%)<input id="rRec" type="number" value="25" min="0" max="100"></label>
-      <label>Revenue per new patient, first visit ($)<input id="rVal" type="number" value="170" min="0"></label>
+      <label>Referrals received per month (assumption)<input id="rIn" type="number" value="300" min="0"></label>
+      <label>Share that never become a visit today (%)<input id="rLeak" type="number" value="20" min="0" max="100"></label>
+      <label>Share of those this recovers (%, assumption)<input id="rRec" type="number" value="25" min="0" max="100"></label>
+      <label>First visit payment ($, Medicare 99204)<input id="rVal" type="number" value="177" min="0"></label>
       <label>Downstream revenue per new patient ($)<input id="rDown" type="number" value="0" min="0"></label>
       <div class="out">Recovered per month<b id="rOut">$0</b><span id="rOutN"></span></div>
     </div>
-    <p class="src" id="rSrc">Sources: being verified. No default here is presented as a measured result.</p>
+    <p class="src" id="rSrc">Sources. Leakage: about 8 in 10 referred primary care patients completed a specialist visit within 3 months (Forrest et al., <a href="https://www.annfammed.org/content/5/4/361">Annals of Family Medicine, 2007</a>); a large health system documented completion for 34.8% of referral scheduling attempts (Patel et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5910374/">J Gen Intern Med, 2018</a>); half of specialty referrals went uncompleted among older urban adults (Weiner et al., J Eval Clin Pract, 2010). First visit: CMS CY2026 Physician Fee Schedule final rule, 99204 national non-facility $177.36 (99203: $117.57). Downstream care varies widely (one spine program reported 10.3% of new referrals converting to surgery within a year, <a href="https://index.mirasmart.com/AAOS2026/PDFfiles/AAOS2026-007017.pdf">AAOS 2026 abstract</a>), so it defaults to zero. Referral volume and recovery share are assumptions for you to change.</p>
   </section>
 
   <footer>Built by <a href="/work">Mitchell Nicholas</a>, former medical assistant (2021 to 2025: internal medicine, pulmonology, orthopedics, sports medicine), now building AI systems. Python, local OCR, pydantic, Claude structured output, pytest.</footer>
