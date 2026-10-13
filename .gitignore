@@ -2,3 +2,5 @@
 data/
 __pycache__/
 *.pyc
+*.ocr.json
+*.page1.png

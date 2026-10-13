@@ -52,9 +52,24 @@ class Ledger:
         return out
 
 
+import re
+
+NAME_OK = re.compile(r"^[A-Za-z][A-Za-z'\-]{0,29}$")
+UNSAFE = re.compile(r"(://|www\.|@|<|>)")
+
+
+def safe_name(value):
+    """Only a plain first name goes into an outbound draft. Anything else (a URL, a form label, OCR junk) is
+    dropped and the referral is flagged for staff. Security QA M4, 2026-10-13."""
+    first = (value or "").split()[0] if value else ""
+    return first if NAME_OK.match(first) and not UNSAFE.search(first) else ""
+
+
 def drafts(rec):
     """Human-reviewed drafts. Plain words, no PHI beyond what the receiving practice already holds."""
-    first = (rec.get("patient_name") or "there").split()[0]
+    first = safe_name(rec.get("patient_name")) or "there"
+    if rec.get("patient_name") and not safe_name(rec.get("patient_name")):
+        rec.setdefault("flags", []).append("patient_name_unusable_in_draft")
     spec = rec.get("specialty") or "specialist"
     who = rec.get("referring_provider") or "your doctor"
     d = {"patient_text": (f"Hi {first}, this is the {spec.lower()} office. {who} referred you to us and we'd like to "
@@ -66,7 +81,8 @@ def drafts(rec):
                 "member_id": "insurance member ID", "reason": "reason for referral", "icd10": "diagnosis (ICD-10) code",
                 "patient_name": "patient name"}
         items = ", ".join(need.get(m, m) for m in rec.get("missing", []))
-        d["missing_info_request"] = (f"Re: referral for {rec.get('patient_name') or 'your patient'}"
+        pname = rec.get("patient_name") if not UNSAFE.search(rec.get("patient_name") or "") else ""
+        d["missing_info_request"] = (f"Re: referral for {pname or 'your patient'}"
                                      f"{' (DOB ' + rec['dob'] + ')' if rec.get('dob') else ''}. To schedule, we still "
                                      f"need: {items}. Please fax it back to this number. Thank you.")
     return d

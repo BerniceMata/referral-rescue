@@ -60,3 +60,10 @@ def test_npi_single_match_returns_fax_and_practice(monkeypatch):
     monkeypatch.setattr(npi, "_get", lambda p: one)
     r = npi.lookup("Dr. Brian Rodriguez", "TX")
     assert r["fax"] == "214-555-0101" and r["name"] == "Brian Rodriguez" and r["match"] == "exact"
+
+
+def test_draft_never_pastes_a_url_or_label_as_the_patient_name():
+    from rr.tracker import drafts, safe_name
+    assert safe_name("http://evil.example/x") == "" and safe_name("Demographics") == "Demographics"
+    d = drafts({"patient_name": "http://evil.example/x", "missing": []})
+    assert d["patient_text"].startswith("Hi there")

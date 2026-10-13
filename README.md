@@ -58,4 +58,4 @@ python -m rr.build_demo        # demo/demo.json + demo/faxes, open demo/index.ht
 - `demo/`: the static demo page with real outputs, mistakes included.
 
 ## Provider verification (NPI registry)
-`python -m rr.npi "Dr. Brian Rodriguez" TX` checks the referring provider against the public CMS NPI registry (no key) and returns the practice phone and fax for the missing-info request. It refuses to guess: a name that matches several providers in the state comes back as ambiguous unless the practice name narrows it to one.
+`python -m rr.npi "Dr. Firstname Lastname" TX` checks the referring provider against the public CMS NPI registry (no key) and returns the practice phone and fax for the missing-info request. It refuses to guess: a name that matches several providers in the state comes back as ambiguous unless the practice name narrows it to one.
