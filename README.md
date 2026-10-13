@@ -41,3 +41,6 @@ python -m rr.build_demo        # demo/demo.json + demo/faxes, open demo/index.ht
 - `rr/eval.py`: the scorer. Field accuracy with normalized exact match, missing-flag precision, false fills, and per-layout results.
 - `rr/tracker.py`: an append-only referral log (RECEIVED > NEEDS_INFO > CONTACTED > SCHEDULED > SEEN) with SLA-based overdue flags, plus drafts for staff review. It never sends anything.
 - `demo/`: the static demo page with real outputs, mistakes included.
+
+## Provider verification (NPI registry)
+`python -m rr.npi "Dr. Brian Rodriguez" TX` checks the referring provider against the public CMS NPI registry (no key) and returns the practice phone and fax for the missing-info request. It refuses to guess: a name that matches several providers in the state comes back as ambiguous unless the practice name narrows it to one.

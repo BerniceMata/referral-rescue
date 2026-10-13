@@ -41,3 +41,22 @@ def test_missing_info_request_lists_exactly_what_is_missing():
     d = drafts({"patient_name": "Ana Diaz", "dob": "01/02/1970", "missing": ["member_id", "phone"]})
     assert "insurance member ID" in d["missing_info_request"] and "patient phone number" in d["missing_info_request"]
     assert "STOP" in d["patient_text"]
+
+
+def test_npi_refuses_to_guess_between_several_providers(monkeypatch):
+    from rr import npi
+    two = {"results": [{"number": "1", "basic": {"first_name": "A", "last_name": "B"}, "addresses": []},
+                       {"number": "2", "basic": {"first_name": "A", "last_name": "B"}, "addresses": []}]}
+    monkeypatch.setattr(npi, "_get", lambda p: two)
+    assert npi.lookup("Dr. A B", "TX") == {"ambiguous": 2}
+    assert npi.lookup("Dr. A B", "TX", practice="Nope Clinic") == {"ambiguous": 2}
+
+
+def test_npi_single_match_returns_fax_and_practice(monkeypatch):
+    from rr import npi
+    one = {"results": [{"number": "1234567893", "basic": {"first_name": "BRIAN", "last_name": "RODRIGUEZ"},
+                        "addresses": [{"address_purpose": "LOCATION", "telephone_number": "214-555-0100", "fax_number": "214-555-0101", "city": "DALLAS", "state": "TX"}],
+                        "taxonomies": [{"primary": True, "desc": "Family Medicine"}]}]}
+    monkeypatch.setattr(npi, "_get", lambda p: one)
+    r = npi.lookup("Dr. Brian Rodriguez", "TX")
+    assert r["fax"] == "214-555-0101" and r["name"] == "Brian Rodriguez" and r["match"] == "exact"
