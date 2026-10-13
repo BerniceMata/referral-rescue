@@ -7,6 +7,16 @@ This prototype takes faxed specialty referrals in and puts scheduled patients ou
 ## Why
 A primary care office faxes a referral to an orthopedic or pulmonology practice. If it sits in a pile, insurance details are missing, or nobody calls, the patient never books. The practice loses a new-patient visit and whatever care follows. I worked as a medical assistant from 2021 to 2025 (internal medicine, pulmonology, orthopedics, sports medicine) before building software.
 
+## Results after the teardown upgrades (2026-10-13)
+After comparing against Tennr, Commure, Notable, ReferralMD, Assort Health and two open-source referral-intake repos, three upgrades went in: ICD-10 validation against the CMS FY2027 code file (repairs one OCR confusion only when exactly one valid code results; a code the office never wrote becomes `icd10_suggested`, never the value), a grounding check on names (form wording is never a name), and a per-field confidence score with an auto-accept measurement.
+
+| | Faxes | Field accuracy | ICD-10 | False fills | Auto-accept (conf >= 0.85): share, precision |
+|---|---|---|---|---|---|
+| Dev (L1-L3) | 30 | 89.1% | 26/29 | 0 | 78%, 98.6% |
+| Held-out (L4-L6), re-scored | 30 | 70.5% | 24/28 | 0 | 38%, 67.3% |
+
+Honesty note: the clean held-out number is still the 60.4% below, scored once with the parser frozen. The fixes above were informed by looking at those held-out failures, so L4-L6 is now a dev set too. A third set of layouts (L7-L9), written blind by a separate agent, is the next clean test. The auto-accept precision on new layouts (67%) says plainly that "found under a label" is not yet a trustworthy confidence signal; that is the next thing to fix.
+
 ## Results (rules baseline, local OCR, $0)
 
 | | Faxes | Field accuracy | False fills | Missing fields caught |

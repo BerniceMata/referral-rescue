@@ -268,7 +268,7 @@
    "fields": [
     {
      "field": "patient_name",
-     "got": "Demographics",
+     "got": "FirSt Mrn laSt",
      "truth": "Denise Davis",
      "ok": false,
      "truly_missing": false
@@ -317,9 +317,9 @@
     },
     {
      "field": "icd10",
-     "got": "",
+     "got": "G47.33",
      "truth": "G47.33",
-     "ok": false,
+     "ok": true,
      "truly_missing": false
     },
     {
@@ -338,12 +338,11 @@
     }
    ],
    "missing": [
-    "member_id",
-    "icd10"
+    "member_id"
    ],
    "drafts": {
-    "patient_text": "Hi Demographics, this is the specialist office. Dr. Brian Rodriguez referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
-    "missing_info_request": "Re: referral for Demographics (DOB 04/08/1960). To schedule, we still need: insurance member ID, diagnosis (ICD-10) code. Please fax it back to this number. Thank you."
+    "patient_text": "Hi FirSt, this is the specialist office. Dr. Brian Rodriguez referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for FirSt Mrn laSt (DOB 04/08/1960). To schedule, we still need: insurance member ID. Please fax it back to this number. Thank you."
    }
   },
   {
@@ -443,9 +442,9 @@
    "fields": [
     {
      "field": "patient_name",
-     "got": "referral request ROuTINE",
+     "got": "Kevin Thomas",
      "truth": "Kevin Thomas",
-     "ok": false,
+     "ok": true,
      "truly_missing": false
     },
     {
@@ -492,9 +491,9 @@
     },
     {
      "field": "icd10",
-     "got": "",
+     "got": "S83.511A",
      "truth": "S83.511A",
-     "ok": false,
+     "ok": true,
      "truly_missing": false
     },
     {
@@ -513,12 +512,11 @@
     }
    ],
    "missing": [
-    "reason",
-    "icd10"
+    "reason"
    ],
    "drafts": {
-    "patient_text": "Hi referral, this is the orthopedics office. Dr. Angela Hall referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
-    "missing_info_request": "Re: referral for referral request ROuTINE (DOB 11/25/1990). To schedule, we still need: reason for referral, diagnosis (ICD-10) code. Please fax it back to this number. Thank you."
+    "patient_text": "Hi Kevin, this is the orthopedics office. Dr. Angela Hall referred you to us and we'd like to get you scheduled. Reply with a day and time that works, or call us back. Reply STOP to opt out.",
+    "missing_info_request": "Re: referral for Kevin Thomas (DOB 11/25/1990). To schedule, we still need: reason for referral. Please fax it back to this number. Thank you."
    }
   }
  ],
@@ -527,7 +525,7 @@
    "set": "C:\\Users\\falco\\Desktop\\referral-rescue\\data\\dev",
    "extractor": "rules",
    "referrals": 30,
-   "field_accuracy": 0.884,
+   "field_accuracy": 0.891,
    "per_field": {
     "patient_name": "28/30",
     "dob": "21/24",
@@ -536,52 +534,62 @@
     "member_id": "21/25",
     "referring_provider": "25/30",
     "specialty": "28/30",
-    "icd10": "24/29",
+    "icd10": "26/29",
     "reason": "27/30",
     "urgency": "30/30"
    },
    "per_layout": {
-    "L1": 0.716,
+    "L1": 0.726,
     "L2": 1.0,
-    "L3": 0.937
+    "L3": 0.947
    },
    "missing_flags": {
     "really_missing": 15,
     "caught": 15,
     "false_fill": 0,
-    "false_alarm": 19
+    "false_alarm": 21
    },
-   "clean_referrals": 17
+   "clean_referrals": 19,
+   "auto_accept": {
+    "threshold": 0.85,
+    "share_of_fields": 0.775,
+    "precision": 0.986
+   }
   },
   "held_out": {
    "set": "C:\\Users\\falco\\Desktop\\referral-rescue\\data\\test",
    "extractor": "rules",
    "referrals": 30,
-   "field_accuracy": 0.604,
+   "field_accuracy": 0.705,
    "per_field": {
-    "patient_name": "0/30",
+    "patient_name": "10/30",
     "dob": "27/28",
     "phone": "27/27",
     "payer": "27/27",
     "member_id": "22/28",
     "referring_provider": "28/30",
     "specialty": "17/30",
-    "icd10": "5/28",
+    "icd10": "24/28",
     "reason": "0/30",
     "urgency": "21/30"
    },
    "per_layout": {
-    "L4": 0.573,
-    "L5": 0.553,
-    "L6": 0.684
+    "L4": 0.667,
+    "L5": 0.596,
+    "L6": 0.847
    },
    "missing_flags": {
     "really_missing": 12,
     "caught": 12,
     "false_fill": 0,
-    "false_alarm": 54
+    "false_alarm": 35
    },
-   "clean_referrals": 0
+   "clean_referrals": 0,
+   "auto_accept": {
+    "threshold": 0.85,
+    "share_of_fields": 0.382,
+    "precision": 0.673
+   }
   }
  }
 }

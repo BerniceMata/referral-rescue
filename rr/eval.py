@@ -19,6 +19,7 @@ from pathlib import Path
 FIELDS = ["patient_name", "dob", "phone", "payer", "member_id", "referring_provider", "specialty", "icd10",
           "reason", "urgency"]
 FLAG = ["patient_name", "dob", "phone", "payer", "member_id", "reason", "icd10"]
+AUTO_ACCEPT = 0.85       # a field at or above this confidence would skip the staff review queue
 
 
 def norm(field, v):
@@ -48,6 +49,7 @@ def run(folder, extractor="rules", verbose=False):
     per = defaultdict(lambda: [0, 0])          # field -> [correct, present]
     by_layout = defaultdict(lambda: [0, 0])
     flag = {"tp": 0, "fp": 0, "false_fill": 0, "absent": 0}
+    auto = [0, 0]                              # [correct, accepted] among fields at or above AUTO_ACCEPT confidence
     rows = []
     for gtp in sorted(folder.glob("rr*.json")):
         if gtp.name.endswith(".ocr.json") or ".pred" in gtp.name:
@@ -56,11 +58,14 @@ def run(folder, extractor="rules", verbose=False):
         pred = extract(gtp.with_suffix(".png"))
         gtp.with_suffix(".pred.json").write_text(json.dumps(pred, indent=1), encoding="utf-8")
         wrong = []
+        conf = pred.get("confidence", {})
         for f in FIELDS:
             if not gt.get(f):
                 continue
             ok = same(f, pred.get(f), gt[f])
             per[f][0] += ok; per[f][1] += 1
+            if conf.get(f, 0) >= AUTO_ACCEPT:
+                auto[0] += ok; auto[1] += 1
             by_layout[gt["layout"]][0] += ok; by_layout[gt["layout"]][1] += 1
             if not ok:
                 wrong.append(f"{f}: got {pred.get(f)!r} want {gt[f]!r}")
@@ -84,6 +89,8 @@ def run(folder, extractor="rules", verbose=False):
         "missing_flags": {"really_missing": flag["absent"], "caught": flag["tp"], "false_fill": flag["false_fill"],
                           "false_alarm": flag["fp"]},
         "clean_referrals": sum(1 for r in rows if not r[2]),
+        "auto_accept": {"threshold": AUTO_ACCEPT, "share_of_fields": round(auto[1] / max(1, tot_n), 3),
+                        "precision": round(auto[0] / max(1, auto[1]), 3)},
     }
     return report
 

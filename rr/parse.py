@@ -36,6 +36,9 @@ PHONE = re.compile(r"(?<![A-Za-z0-9])\(?\s*(\d{3})\s*\)?\s*[\-. ]?\s*(\d{3})\s*[
 ICD = re.compile(r"\b([A-TV-Z])\s?(\d)([0-9AB])(?:\s*[. ]\s*([0-9A-TV-Z]{1,4}))?\b")
 DR = re.compile(r"\b(?:Dr|Di|Or)[ \t]*[.,]?[ \t]*([A-Z][a-z]+(?:[ \t]+[A-Z]\.)?[ \t]*[A-Z][a-z][a-zA-Z'\-]+)")
 PRACTICE_WORDS = re.compile(r"(medicine|clinic|primary care|health|medical|associates|family practice|group)", re.I)
+NOT_NAMES = {"demographics", "request", "referral", "routine", "urgent", "stat", "patient", "name", "order", "details",
+             "coverage", "form", "specialty", "insurance", "date", "birth", "phone", "none", "unknown"}
+CONF = {"label": 0.90, "prose": 0.80, "infer": 0.70, "derived": 0.70, "scan": 0.60}   # by how a field was found
 DIGITISH = str.maketrans({"O": "0", "o": "0", "D": "0", "I": "1", "l": "1", "|": "1", "!": "1", "i": "1",
                           "S": "5", "s": "5", "B": "8", "Z": "2", "z": "2", "g": "9"})
 
@@ -81,6 +84,10 @@ def _name(raw):
         last, first = [p.strip() for p in raw.split(",", 1)]
         raw = f"{first} {last}"
     words = [w for w in raw.split() if len(w) > 1 or w.isupper()]
+    # grounding: a name is 2-3 alphabetic words and none of them is form wording
+    if not 2 <= len(words) <= 3 or any(not w.replace("'", "").replace("-", "").isalpha() for w in words) \
+            or any(w.lower() in NOT_NAMES for w in words):
+        return ""
     return " ".join(w.capitalize() if w.isupper() else w for w in words[:3]).strip()
 
 
@@ -89,8 +96,8 @@ def extract(image):
     rows = [" ".join(b["text"] for b in ln) for ln in lines(bx)]
     body = [r for r in rows if not re.search(r"from\s*:?\s*\d|p\.?\s*0\d\d\s*/", r, re.I)]   # drop fax header
     text = "\n".join(body)
-    conf = {}
     out = {}
+    how = {}     # per field: how it was found, which sets its confidence (label > prose > infer > scan)
 
     def candidates(field):
         found = []
@@ -108,10 +115,12 @@ def extract(image):
         return c[0] if c else None
 
     # patient name: label, then prose "my patient X,"
-    v = labeled("patient_name")
+    v = next((c for c in candidates("patient_name") if _name(c)), "")    # skip label text like "Demographics"
+    how["patient_name"] = "label"
     if not v:
         m = re.search(r"patient,?\s+([A-Z][A-Za-z'\-]+(?:\s+[A-Z][A-Za-z'\-]+)+)", text)
         v = m.group(1) if m else ""
+        how["patient_name"] = "prose"
     out["patient_name"] = _name(v)
 
     # dates: DOB is a pre-2015 date, preferably near a birth label
@@ -122,10 +131,11 @@ def extract(image):
         if re.search(LABELS["dob"], r, re.I):
             m = DATE.search(r.translate(str.maketrans({"s": "5", "o": "0", "O": "0"})))
             if m and _norm_date(m) and int(m.group(3)) < 2015:
-                dob = _norm_date(m); break
+                dob = _norm_date(m); how["dob"] = "label"; break
     if not dob:
         old = [d for m, d in dates if int(d[-4:]) < 2015]
         dob = old[0] if len(old) == 1 else ""
+        how["dob"] = "infer"
     out["dob"] = dob
     sent = [d for m, d in dates if d.endswith("2026")]
     out["date_sent"] = sent[0] if sent else ""
@@ -140,12 +150,15 @@ def extract(image):
             if s > bscore:
                 best, bscore = f"({m.group(1)}) {m.group(2)}-{m.group(3)}", s
     out["phone"] = best if bscore >= 0 else ""
+    how["phone"] = "label" if bscore >= 2 else "scan"
 
     # payer: dictionary match, label line first
     lab = labeled("payer") or ""
     p, s = _fuzzy_pick(lab, PAYERS) if lab else (None, 0)
+    how["payer"] = "label"
     if not p:
         p, s = _fuzzy_pick(text, PAYERS, cutoff=0.88)
+        how["payer"] = "scan"
     out["payer"] = p or ""
 
     # member id: labeled token, else an id-shaped token that is not a phone or date
@@ -156,8 +169,9 @@ def extract(image):
             continue
         tok = re.findall(r"[A-Za-z0-9]{7,15}", lv.replace(" ", ""))
         if tok:
-            mid = tok[0]; break
+            mid = tok[0]; how["member_id"] = "label"; break
     if not mid:
+        how["member_id"] = "scan"
         for t in re.findall(r"\b[A-Za-z0-9]{9,14}\b", text):
             if sum(c.isdigit() for c in t) >= 6 and not re.search(r"(mrn|account)", text[max(0, text.find(t) - 20):text.find(t)], re.I):
                 mid = t; break
@@ -169,7 +183,10 @@ def extract(image):
 
     # referring provider
     lv = labeled("referring_provider") or ""
-    m = DR.search(lv) or DR.search(text)
+    m = DR.search(lv)
+    how["referring_provider"] = "label"
+    if not m:
+        m = DR.search(text); how["referring_provider"] = "scan"
     out["referring_provider"] = f"Dr. {m.group(1)}" if m else ""
 
     # referring practice: first line that reads like a practice name
@@ -185,11 +202,12 @@ def extract(image):
     for lv in candidates("specialty"):         # a form title like "SPECIALTY REFERRAL FORM" is not the answer
         sp, _ = _fuzzy_pick(lv, list(SPECIALTIES), cutoff=0.75)
         if sp:
-            break
+            how["specialty"] = "label"; break
     if not sp:
         m = re.search(r"referral\s+to\s+(\w+)|to your (\w+)", text, re.I)
         if m:
             sp, _ = _fuzzy_pick(m.group(1) or m.group(2), list(SPECIALTIES), cutoff=0.75)
+        how["specialty"] = "prose"
     out["specialty"] = SPECIALTIES.get(sp, "") if sp else ""
 
     # icd-10
@@ -209,17 +227,33 @@ def extract(image):
             tail = tail[:1].translate(fix) + tail[1:] if tail else ""
             icd = m.group(1) + m.group(2).translate(fix) + m.group(3).translate(fix) + (f".{tail}" if tail else "")
             break
-    out["icd10"] = icd.upper()
+    how["icd10"] = "label"
 
     # reason
     m = re.search(r"evaluation\s*'?\s*of\s+(.+?)(\(|\n\n|$)", text, re.I | re.S)   # prose wraps lines
     lv = m.group(1) if m else (labeled("reason") or "")
     lv = re.split(r"\(|icd|dx\s*code", lv, flags=re.I)[0]
     out["reason"] = " ".join(lv.replace("\n", " ").split()).strip(" ,.;")
+    how["reason"] = "prose" if m else "label"
+
+    # icd-10 validation against the CMS code file (blank beats wrong): repair one OCR confusion, else recover
+    # the code from the diagnosis wording, else accept a bare code found anywhere on the page only if it is
+    # the single valid code there
+    from rr import icd10
+    icd = icd10.repair(icd) if icd else ""
+    # a code the referring office did not write is a suggestion for staff, never the extracted value
+    out["icd10_suggested"] = icd10.from_text(out["reason"]) if (not icd and out["reason"]) else ""
+    if not icd:
+        bare = {icd10.repair(t) for t in re.findall(r"\b[A-TV-Z][0-9OIL][0-9ABOIL](?:[.,]?[0-9A-Z]{1,4})?\b", text.upper())}
+        bare.discard("")
+        icd = bare.pop() if len(bare) == 1 else ""
+        how["icd10"] = "scan"
+    out["icd10"] = icd.upper()
 
     # urgency: a checked box wins, then a labeled value, then a lone mention
     urg = ""
     m = re.search(r"[\[\(]\s*[xX]\s*[\]\)][\s.,]*([A-Za-z]+)", text)
+    how["urgency"] = "label"
     if m:
         w, _ = _fuzzy_pick(m.group(1), list(URG), cutoff=0.6)
         urg = URG.get(w, "")
@@ -230,8 +264,13 @@ def extract(image):
     if not urg:
         found = {URG[k] for k in URG if re.search(rf"\b{k}\b", text, re.I)}
         urg = found.pop() if len(found) == 1 else ""
+        how["urgency"] = "scan"
     out["urgency"] = urg
 
     out["missing"] = [f for f in ("patient_name", "dob", "phone", "payer", "member_id", "reason", "icd10") if not out.get(f)]
     out["ocr_mean_conf"] = round(sum(b["conf"] for b in bx) / max(1, len(bx)), 3)
+    # confidence: how the value was found, plus a bump when a dictionary (payers, specialties, CMS codes) confirmed it
+    validated = {"payer", "specialty", "urgency", "icd10"}
+    out["confidence"] = {f: (0 if not out.get(f) else round(min(0.99, CONF[how.get(f, "scan")] + (0.05 if f in validated else 0)), 2))
+                         for f in ("patient_name", "dob", "phone", "payer", "member_id", "referring_provider", "specialty", "icd10", "reason", "urgency")}
     return out
