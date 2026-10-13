@@ -97,6 +97,7 @@ def extract(image):
     bx = boxes(image)
     rows = [" ".join(b["text"] for b in ln) for ln in lines(bx)]
     body = [r for r in rows if not re.search(r"from\s*:?\s*\d|p\.?\s*0\d\d\s*/", r, re.I)]   # drop fax header
+    body = [re.sub(r"\s{2,}", " ", r) for r in body]   # security QA L11 (2026-10-13): the phone regex stalls on long space runs
     text = "\n".join(body)
     out = {}
     how = {}     # per field: how it was found, which sets its confidence (label > prose > infer > scan)

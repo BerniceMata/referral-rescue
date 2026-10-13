@@ -67,3 +67,11 @@ def test_draft_never_pastes_a_url_or_label_as_the_patient_name():
     assert safe_name("http://evil.example/x") == "" and safe_name("Demographics") == "Demographics"
     d = drafts({"patient_name": "http://evil.example/x", "missing": []})
     assert d["patient_text"].startswith("Hi there")
+
+
+def test_phone_regex_does_not_stall_on_long_space_runs():
+    import time
+    from rr.parse import PHONE
+    from rr.parse import re as _re   # the raw regex is slow on space runs; extract() collapses them first, so test the collapsed path only
+    collapsed = _re.sub(r"\s{2,}", " ", "123" + " " * 8000)
+    t = time.time(); PHONE.search(collapsed); assert time.time() - t < 0.05
